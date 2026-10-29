@@ -141,5 +141,51 @@ I changed the sort comparator from 'a.score - b.score' to 'b.score - a.score'.
 
 <!-- How did you confirm the problem is gone? -->
 
-Played a game, and stayed on the Game Over screen for several seconds. The game-over sound played exactly once, only one score entry was posted to the leaderboard, and clicking "Play Again" successfully switched to the start screen without switching back.
+Played a game and got a new high score, checked the results screen and confirmed that the top score was the new highscore and that the other scores were properly sorted in descending order.
 
+---
+
+## Ticket <1>: <Stats always say "Stats unavailable">
+
+### Actual cause
+
+<!-- Which file and function was the bug in, and what was wrong with the code?
+     Explain why that code produced the behavior described in the ticket. -->
+
+**File / function:**
+MenuScreenController.ts in the loadStatsFromServer() method
+
+**What was wrong:**
+There was an endpoint URL typo in MenuScreenController.ts, fetched "/api/stat" instead of "/api/stats".
+
+### Fix
+
+<!-- What did you change, and why does that change fix the problem? -->
+I changed fixed the typo to fetch "/api/stats".
+
+### How did you find it?
+
+#### Hypothesis testing
+
+**What hypothesis ultimately led you to identify the buggy code, and why?**
+The network request fetching statistics was failing with a 404 error due to a route path mismatch between the client and server. To test this, I opened the browser devtools and observed a failed request: GET http://localhost:xxxx/api/stats 404 (Not Found). Comparing this URL with server/index.ts confirmed that the server registers app.get("/api/stats", ...), meaning the client was querying a non-existent endpoint /api/stat.
+
+#### Backward tracing
+
+<!-- Start from the symptom you saw and work backwards, one step at a time,
+     until you reach the buggy line. For each step, note where you looked
+     and what you saw there. Add steps as needed. -->
+
+1. **Symptom:** <!-- what you saw, e.g. text on screen, console error --> 
+2. **Traced back to:** <!-- where that came from, e.g. a function, a request in the Network tab, a server log --> 
+3. **Traced back to:** 
+4. **Buggy code:** <!-- the file, function and line where the trace ended --> 
+
+<!-- It is okay to use your judgement here in limiting the number of traceback steps. We want to understand your 
+    reasoning for how you discovered where the bug was -->
+
+### Confirming the fix
+
+<!-- How did you confirm the problem is gone? -->
+
+Refreshed the webpage and confirmed that stats are now displayed instead of "Stats unavailable".
