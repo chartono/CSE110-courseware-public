@@ -1,13 +1,13 @@
 # Lemon Clicker Bug Report
 
 **Name:**
-**Tickets solved:** <!-- e.g. 1, 2, 3, 5, 6 (at least five) --> 5, 4
+**Tickets solved:** <!-- e.g. 1, 2, 3, 5, 6 (at least five) --> 5, 4, 6, 1 ,2
 
 Copy the template below once for each ticket you solved. 
 
 ---
 
-## Ticket <5>: <Leaderboard dates show "undefined">
+## Ticket 5: Leaderboard dates show "undefined"
 
 ### Actual cause
 
@@ -53,7 +53,7 @@ Played the game, got a score, and verified the Game Over screen. The entry rende
 
 ---
 
-## Ticket <4>: <Stuck on the Game Over screen>
+## Ticket 4: Stuck on the Game Over screen
 
 ### Actual cause
 
@@ -99,7 +99,7 @@ Played a game, and stayed on the Game Over screen for several seconds. The game-
 
 ---
 
-## Ticket <6>: <My high score disappeared from the leaderboard>
+## Ticket 6: My high score disappeared from the leaderboard
 
 ### Actual cause
 
@@ -145,7 +145,7 @@ Played a game and got a new high score, checked the results screen and confirmed
 
 ---
 
-## Ticket <1>: <Stats always say "Stats unavailable">
+## Ticket 1: Stats always say "Stats unavailable"
 
 ### Actual cause
 
@@ -193,7 +193,7 @@ Refreshed the webpage and confirmed that stats are now displayed instead of "Sta
 
 ---
 
-## Ticket <2>: <Best score always shows 0>
+## Ticket 2: Best score always shows 0
 
 ### Actual cause
 
