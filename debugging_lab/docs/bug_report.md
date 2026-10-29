@@ -161,14 +161,15 @@ There was an endpoint URL typo in MenuScreenController.ts, fetched "/api/stat" i
 ### Fix
 
 <!-- What did you change, and why does that change fix the problem? -->
-I changed fixed the typo to fetch "/api/stats".
+I fixed the typo to fetch "/api/stats".
 
 ### How did you find it?
 
 #### Hypothesis testing
 
 **What hypothesis ultimately led you to identify the buggy code, and why?**
-The network request fetching statistics was failing with a 404 error due to a route path mismatch between the client and server. To test this, I opened the browser devtools and observed a failed request: GET http://localhost:xxxx/api/stats 404 (Not Found). Comparing this URL with server/index.ts confirmed that the server registers app.get("/api/stats", ...), meaning the client was querying a non-existent endpoint /api/stat.
+Hypothesis: The network request fetching statistics is failing with a 404 error due to a route path mismatch between the client and server. 
+To test this, I opened the browser devtools and observed a failed request: GET http://localhost:xxxx/api/statst 404 (Not Found). Comparing this URL with server/index.ts confirmed that the server registers app.get("/api/stats", ...), meaning the client was querying a non-existent endpoint /api/stat.
 
 #### Backward tracing
 
@@ -189,3 +190,49 @@ The network request fetching statistics was failing with a 404 error due to a ro
 <!-- How did you confirm the problem is gone? -->
 
 Refreshed the webpage and confirmed that stats are now displayed instead of "Stats unavailable".
+
+---
+
+## Ticket <2>: <Best score always shows 0>
+
+### Actual cause
+
+<!-- Which file and function was the bug in, and what was wrong with the code?
+     Explain why that code produced the behavior described in the ticket. -->
+
+**File / function:**
+server/index.ts in get app.post("/api/stats", ...) 
+
+**What was wrong:**
+The logic to compute best used the < operator instead of > when comparing the current score to best.
+
+### Fix
+
+<!-- What did you change, and why does that change fix the problem? -->
+I switched the operator sign from < to >.
+
+### How did you find it?
+
+#### Hypothesis testing
+
+**What hypothesis ultimately led you to identify the buggy code, and why?**
+
+#### Backward tracing
+
+<!-- Start from the symptom you saw and work backwards, one step at a time,
+     until you reach the buggy line. For each step, note where you looked
+     and what you saw there. Add steps as needed. -->
+
+1. **Symptom:** <!-- what you saw, e.g. text on screen, console error --> The start screen displayed Best: 0 Average: 19.0 Scores saved: 1 instead of Best: 19.
+2. **Traced back to:** <!-- where that came from, e.g. a function, a request in the Network tab, a server log --> MenuScreenView.updateStats(stats), which rendered the string directly from the stats.best property passed by MenuScreenController.
+3. **Traced back to:** The Network tab inspection of GET /api/stats, where the JSON response returned "best": 0 while average was 19.
+4. **Buggy code:** <!-- the file, function and line where the trace ended --> server/index.ts inside app.get("/api/stats", ...), the condition if (entries[i].score < best).
+
+<!-- It is okay to use your judgement here in limiting the number of traceback steps. We want to understand your 
+    reasoning for how you discovered where the bug was -->
+
+### Confirming the fix
+
+<!-- How did you confirm the problem is gone? -->
+
+Placed [ { "score": 19, "timestamp": "10/25/2026, 11:40:49 PM" } ] into server/leaderboard.json, restarted the Express server, and loaded the start screen. The stats text displayed as: Best: 19 Average: 19.0 Scores saved: 1.
