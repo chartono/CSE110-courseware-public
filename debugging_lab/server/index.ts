@@ -35,7 +35,7 @@ app.post("/api/leaderboard", (req, res) => {
 	// Add the new score, then keep only the top entries
 	const entries = loadLeaderboard();
 	entries.push({ score, time: new Date().toLocaleString() });
-	entries.sort((a, b) => a.score - b.score); // Sort descending
+	entries.sort((a, b) => b.score - a.score); // Sort descending
 	const topEntries = entries.slice(0, MAX_LEADERBOARD_ENTRIES);
 	saveLeaderboard(topEntries);
 
